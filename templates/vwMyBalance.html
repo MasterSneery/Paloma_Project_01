@@ -1,0 +1,36 @@
+{%extends 'templateNavBar.html'%}
+{%block content%}
+
+<div class="container text-center" >
+<div class="row g-3" >
+    <div class="col-10">
+
+        <table class="table table-striped" style="margin-left: auto;  margin-right: auto;" >
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">BALANCES</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for form in formato%}
+                <tr>
+
+                    <th scope="row">{{form.0}}</th>
+                    <td>{{form.1}}</td>
+                    <td>
+                    <a href="/vw_esquemaT/{{form.0}}" class="btn btn-primary">Esquema T</a>
+</td>
+                    
+                </tr>
+                {%endfor%}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</div>
+
+{% endblock %}

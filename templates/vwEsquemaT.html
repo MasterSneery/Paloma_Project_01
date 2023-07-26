@@ -1,0 +1,2153 @@
+{% extends 'templateNavBar.html' %}
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+      <div class="col">
+
+        <span>FORMATO NO. </span> <input type="" value="{{consulta.0}}" disabled>
+      </div>
+      <div class="col">
+        <span>NOMBRE DEL BALANCE: </span><input type="text" value="{{consulta.1}}" disabled>
+      </div>
+    </div>
+</div>
+
+
+<div class="container text-center border-primary">
+    
+  <form action="/vw_insertEsquema/{{idFormato}}" method="POST">
+    <button class="btn btn-primary">BALANCE</button>
+    <div class="row g-3">
+      <div class="col-6">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4" value="1">CAJA</th>
+              </tr>
+            </thead>
+            
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%for registro in conjuntoDatos%}
+                  {% if registro[3]==1 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+                    {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+                      <tr>
+                        <th scope="col">{{registro[0]}}</th>
+                        <th scope="col">$ {{registro[1]}}</th>
+                        <th scope="col">$ 00.00</th>
+                        <th scope="col">##</th>
+                      </tr>
+                    {% else %}
+                      <tr>
+                        <th scope="col">##</th>
+                        <th scope="col">$ 00.00</th>
+                        <th scope="col">${{registro[1]}}</th>
+                        <th scope="col">{{registro[0]}}</th>
+                      </tr>
+                    {% endif %}
+                  {% endif %}
+                {%endfor%}
+                <tr>
+                  <th>TOTAL ABONO</th>
+                  <th><span>$ </span>{{sumaAbonoCajas}}</th>
+                  <th><span>$ </span>{{sumaCargoCajas}}</th>
+                  <th>TOTAL CARGO</th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td colspan="2" >
+                    <select name="totalCajas1"  id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalCajas}}" class="text-center">$ {{totalCajas}}</option>
+                   
+                  </td>
+                  <th></th>
+                </tr>
+                   
+
+              </tbody>
+          </table>
+          
+      </div>
+      
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table" id="miTabla" >
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">BANCOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col" id="columnaSumar">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==2 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col" >$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              
+              {% endif %}       
+              {% endif %}
+              
+              {%endfor%}
+              
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th ><span>$ </span>{{sumaAbonoBanco}}</th>
+                <th><span>$ </span>{{sumaCargoBanco}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalBancos" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalBancos}}"  class="text-center">$ {{totalBancos}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">INVERSIONES TEMPORALES</th>
+              </tr>
+            </thead>
+          
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==3 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoInversiones}}</th>
+                <th><span>$ </span>{{sumaCargoInversiones}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalInversiones" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalInversiones}}"  class="text-center">$ {{totalInversiones}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">ALMACENES</th>
+              </tr>
+            </thead>
+
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==4 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoAlmacenes}}</th>
+                <th><span>$ </span>{{sumaCargoAlmacenes}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalAlmacenes" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalAlmacenes}}"  class="text-center">$ {{totalAlmacenes}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">CLIENTES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==5 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoClientes }}</th>
+                <th><span>$ </span>{{sumaCargoClientes }}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalClientes" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalClientes}}"  class="text-center">$ {{totalClientes}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">DOCUMENTOS POR COBRAR</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==6 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoDocumentosC }}</th>
+                <th><span>$ </span>{{sumaCargoDocumentosC }}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalDocumentosC" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalDocumentosC}}"  class="text-center">$ {{totalDocumentosC}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">DEUDORES DIVERSOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==7 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoDeudoresD }}</th>
+                <th><span>$ </span>{{sumaCargoDeudoresD }}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalDeudoresD" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalDeudoresD}}" class="text-center">$ {{totalDeudoresD}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">ANTICIPO A PROVEEDORES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==8 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoAnticipoP }}</th>
+                <th><span>$ </span>{{sumaCargoAnticipoP }}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalAnticipoP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalAnticipoP}}"  class="text-center">$ {{totalAnticipoP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">TERRENOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==9 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoTerreno }}</th>
+                <th><span>$ </span>{{sumaCargoTerreno }}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalTerreno" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalTerreno}}"  class="text-center">$ {{totalTerreno}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">EDIFICIOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==10 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoEdificios }}</th>
+                <th><span>$ </span>{{sumaCargoEdificios}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalEdificios" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalEdificios}}" class="text-center">$ {{totalEdificios}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">MOBILIARIOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==11 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoMobiliarios }}</th>
+                <th><span>$ </span>{{sumaCargoMobiliarios}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalMobiliarios" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalMobiliarios}}" class="text-center">$ {{totalMobiliarios}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">EQUIPO DE COMPUTO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==12 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoEquipoC}}</th>
+                <th><span>$ </span>{{sumaCargoEquipoC}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalEquipoC" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalEquipoC}}"  class="text-center">$ {{totalEquipoC}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">EQUIPO DE ENTREGA</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==13 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoEquipoE}}</th>
+                <th><span>$ </span>{{sumaCargoEquipoE}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalEquipoE" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalEquipoE}}" class="text-center">$ {{totalEquipoE}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">DEPÓSITO EN GARANTÍA</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==14 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoDepositoG}}</th>
+                <th><span>$ </span>{{sumaCargoDepositoG}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalDepositoG" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalDepositoG}}" class="text-center">$ {{totalDepositoG}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">INVERSIONES PERMANENTES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==15 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoInversionP}}</th>
+                <th><span>$ </span>{{sumaCargoInversionP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalInversionP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalInversionP}}" class="text-center">$ {{totalInversionP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">PAGOS ANTICIPADOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==16 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosI}}</th>
+                <th><span>$ </span>{{sumaCargoGastosI}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosI" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosI}}" class="text-center">$ {{totalGastosI}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">GASTOS EN ETAPAS PREOPERATIVAS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==17 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosE}}</th>
+                <th><span>$ </span>{{sumaCargoGastosE}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosE" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosE}}" class="text-center">$ {{totalGastosE}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">GASTOS DE MERCADOTECNIA</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==18 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosM}}</th>
+                <th><span>$ </span>{{sumaCargoGastosM}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosM" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosM}}" class="text-center">$ {{totalGastosM}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">GASTOS DE ORGANIZACIÓN</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==19 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosO}}</th>
+                <th><span>$ </span>{{sumaCargoGastosO}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosO" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosO}}" class="text-center">$ {{totalGastosO}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">GASTOS DE INSTALACIÓN</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==20 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosIn}}</th>
+                <th><span>$ </span>{{sumaCargoGastosIn}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosIn" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosIn}}" class="text-center">$ {{totalGastosIn}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">PAPELERIA Y ÚTILES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==21 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoPapeleria}}</th>
+                <th><span>$ </span>{{sumaCargoPapeleria}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalPapeleria" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalPapeleria}}" class="text-center">$ {{totalPapeleria}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">PROPAGANDA Y PUBLICIDAD</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==22 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoPropaganda}}</th>
+                <th><span>$ </span>{{sumaCargoPropaganda}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalPropaganda" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalPropaganda}}" class="text-center">$ {{totalPropaganda}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">PRIMAS DE SEGUROS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==23 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoPrimasS}}</th>
+                <th><span>$ </span>{{sumaCargoPrimasS}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalPrimasS" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalPrimasS}}"  class="text-center">$ {{totalPrimasS}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">RENTAS PAGADAS POR ANTICIPADO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==24 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoRentasP}}</th>
+                <th><span>$ </span>{{sumaCargoRentasP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalRentasP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalRentasP}}"  class="text-center">$ {{totalRentasP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">INTERESES PAGADOS POR ANTICIPADO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==25 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoInteresesP}}</th>
+                <th><span>$ </span>{{sumaCargoInteresesP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalInteresesP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalInteresesP}}"  class="text-center">$ {{totalInteresesP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">PROVEEDORES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==26 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoProveedores}}</th>
+                <th><span>$ </span>{{sumaCargoProveedores}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalProveedores" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalProveedores}}" class="text-center">$ {{totalProveedores}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">DOCUMENTOS POR PAGAR</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==27 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoDocumentosP}}</th>
+                <th><span>$ </span>{{sumaCargoDocumentosP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalDocumentosP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalDocumentosP}}"  class="text-center">$ {{totalDocumentosP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">ACREEDORES DIVERSOS</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==28 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoAcreedoresD}}</th>
+                <th><span>$ </span>{{sumaCargoAcreedoresD}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalAcreedoresD" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalAcreedoresD}}"  class="text-center">$ {{totalAcreedoresD}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">ANTICIPO DE CLIENTES</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==29 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoAnticipoC}}</th>
+                <th><span>$ </span>{{sumaCargoAnticipoC}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalAnticipoC" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalAnticipoC}}"  class="text-center">$ {{totalAnticipoC}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">GASTOS PENDIENTES DE PAGO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==30 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoGastosP}}</th>
+                <th><span>$ </span>{{sumaCargoGastosP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalGastosP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalGastosP}}"  class="text-center">$ {{totalGastosP}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">IMPUESTOS POR PAGAR</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==31 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoImpuestosP}}</th>
+                <th><span>$ </span>{{sumaCargoImpuestosP}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalImpuestosP" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalImpuestosP}}"  class="text-center">$ {{totalImpuestosP}}</option>
+                
+                </td>
+               
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">HIPOTECAS POR PAGAR</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==32 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoHipotecas}}</th>
+                <th><span>$ </span>{{sumaCargoHipotecas}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalHipotecas" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalHipotecas}}" class="text-center">$ {{totalHipotecas}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">DOCUMENTOS POR PAGAR LARGO PLAZO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==33 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoDocumentosPL}}</th>
+                <th><span>$ </span>{{sumaCargoDocumentosPL}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalDocumentosPL" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalDocumentosPL}}" class="text-center">$ {{totalDocumentosPL}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">CUENTAS POR PAGAR A LARGO PLAZO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==34 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoCuentasPL}}</th>
+                <th><span>$ </span>{{sumaCargoCuentasPL}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalCuentasPL" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalCuentasPL}}" class="text-center">$ {{totalCuentasPL}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">RENTAS COBRADAS POR ANTICIPADO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==35 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoRentasC}}</th>
+                <th><span>$ </span>{{sumaCargoRentasC}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalRentasC" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalRentasC}}" class="text-center">$ {{totalRentasC}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">INTERESES COBRADOS PORANTICIPO</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ABONO</th>
+                <th scope="col">CARGO</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for registro in conjuntoDatos%}
+              {% if registro[3]==36 %} <!--ESTE IF ES PARA LOS CONCEPTOS-->
+              {% if registro[2]==2 %}<!--ESTE IF ES PARA COMPROBAR HABER|DEBER-->
+              <tr>
+                <th scope="col">{{registro[0]}}</th>
+                <th scope="col">$ {{registro[1]}}</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">##</th>
+              </tr>
+              {% else %}
+              <tr>
+                <th scope="col">##</th>
+                <th scope="col">$ 00.00</th>
+                <th scope="col">${{registro[1]}}</th>
+                <th scope="col">{{registro[0]}}</th>
+              </tr>
+              {% endif %}
+              {% endif %}
+              {%endfor%}
+              <tr>
+                <th>TOTAL ABONO</th>
+                <th><span>$ </span>{{sumaAbonoInteresesC}}</th>
+                <th><span>$ </span>{{sumaCargoInteresesC}}</th>
+                <th>TOTAL CARGO</th>
+              </tr>
+              <tr>
+                <th></th>
+                <td colspan="2">
+                  <select name="totalInteresesC" id="" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <option value="{{totalInteresesC}}" class="text-center">$ {{totalInteresesC}}</option>
+                
+                </td>
+                
+                <th></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+    
+  </form> 
+</div>
+{%endblock%}
