@@ -1,0 +1,29 @@
+:root{
+--rosa:#f22b56;
+--violeta:#9b4b54;
+--cian:#4d8f81;
+--turquesa:#78bd91;
+--beige:#ebebab;
+}
+
+html{
+    font-size:65%;
+}
+
+body{
+    font-size: 16px;
+}
+
+
+
+nav{
+    background-color: var(--cian);
+    font-family: monospace;
+    font-weight: lighter;
+}
+
+.row{
+    display: felx;
+    justify-content: center;
+    align-items: center;
+}
