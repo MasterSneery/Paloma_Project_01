@@ -1,0 +1,85 @@
+{% extends 'templateNavBar.html' %}
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+      <div class="col">
+
+        <span>FORMATO NO. </span> <input type="" value="{{consulta.0}}" disabled>
+      </div>
+      <div class="col">
+        <span>NOMBRE DEL BALANCE: </span><input type="text" value="{{consulta.1}}" disabled>
+      </div>
+    </div>
+</div>
+
+
+<div class="container text-center border-primary">
+    
+  
+    <button class="btn btn-primary">BALANCE</button>
+    
+      
+      <div class="col-10">
+        <div class="p-3">
+          <table class="table" id="miTabla" >
+            <thead>
+              <tr>
+                <th scope="col" colspan="4">BALANCE DE COMPROBACION</th>
+              </tr>
+            </thead>
+      
+            <thead>
+              <tr>
+                <th scope="col">CUENTAS</th>
+                <th scope="col" colspan="2">BALANZA DE MOVIMIENTOS</th>
+                <th scope="col" colspan="2">BALANZA DE DATOS</th>
+                
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">DEUDOR</th>
+                <th scope="col">ACREEDOR</th>
+                <th scope="col">DEUDOR</th>
+                <th scope="col">ACREEDOR</th>              
+            
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <th>BANCO </th>
+                <th>$ {{sumaAbonoBanco}}</th>
+                <th>$ {{sumaCargoBanco}}</th>
+                <th>$ {{totalBancos}}</th>
+                <th>$ {{totalBancos1}}</th>
+              </tr>
+
+              <tr>
+                <th>CAJA </th>
+                <th>$ {{sumaAbonoCajas}}</th>
+                <th>$ {{sumaCargoCajas}}</th>
+                <th>$ {{totalCajas}}</th>
+                <th>$ {{totalCajas1}}</th>
+              </tr>
+
+              <tr>
+                <th>INVERSIONES TEMPORALES </th>
+                <th>$ {{sumaAbonoInversiones}}</th>
+                <th>$ {{sumaCargoInversiones}}</th>
+                <th>$ {{totalInversiones}}</th>
+                <th>$ {{totalInversiones1}}</th>
+              </tr>
+
+             
+              
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    
+</div>
+{%endblock%}
