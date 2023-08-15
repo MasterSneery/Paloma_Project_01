@@ -1,6 +1,7 @@
 from colorama import Cursor
 from flask import Flask, render_template, request ,redirect,url_for,flash 
 from flask_mysqldb import MySQL
+import decimal
 
 app = Flask(__name__)
 
@@ -1463,11 +1464,8 @@ def vwBalanceComprobacion(idFormato):
     consulta = cur.fetchone()
     cur=mysql.connection.cursor()
 
-    
-
     #SUMAS DE BANCOS
     
-
     sumaAbonoBa = mysql.connection.cursor()
     sumaAbonoBa.execute('SELECT SUM(datos.monto) FROM formatos INNER JOIN datos ON formatos.id_formato = datos.formato_id INNER JOIN conceptos ON datos.concepto_id=conceptos.id_concepto WHERE formatos.id_formato=%s AND datos.deberHaber_id=1 AND datos.concepto_id=2',[idFormato])
     resultado = sumaAbonoBa.fetchone()
@@ -1575,6 +1573,62 @@ def vwBalanceComprobacion(idFormato):
         print("Ambos valores son None.")
     else:
         print("Uno de los valores es None.")
+    
+     #SUMAS DE ALMACENES
+    sumaAbonoAL = mysql.connection.cursor()
+    sumaAbonoAL.execute('SELECT SUM(datos.monto) FROM formatos INNER JOIN datos ON formatos.id_formato = datos.formato_id INNER JOIN conceptos ON datos.concepto_id=conceptos.id_concepto WHERE formatos.id_formato=%s AND datos.deberHaber_id=1 AND datos.concepto_id=4',[idFormato])
+    resultadoAL = sumaAbonoAL.fetchone()
+    sumaAbonoAL=mysql.connection.cursor()
+
+    if resultadoAL is not None:#Comprueba si viene vacio
+        sumaAbonoAlmacenes = resultadoAL[0]  # Acceder al valor de la suma
+    else:
+        print("No se encontraron resultados.")
+    totalAlmacenes=0
+    totalAlmacenes1=0
+    sumaCargoAL = mysql.connection.cursor()
+    sumaCargoAL.execute('SELECT SUM(datos.monto) FROM formatos INNER JOIN datos ON formatos.id_formato = datos.formato_id INNER JOIN conceptos ON datos.concepto_id=conceptos.id_concepto WHERE formatos.id_formato=%s AND datos.deberHaber_id=2 AND datos.concepto_id=4',[idFormato])
+    resultadoAL = sumaCargoAL.fetchone()
+    sumaCargoAL=mysql.connection.cursor()
+    if resultadoAL is not None:
+        sumaCargoAlmacenes  = resultadoAL[0]
+    else:
+        print("No se encontraron resultados.") 
+
+    if sumaAbonoAlmacenes is not None and sumaCargoAlmacenes is not None:
+        if sumaAbonoAlmacenes >= sumaCargoAlmacenes:
+            totalAlmacenes = sumaAbonoAlmacenes - sumaCargoAlmacenes
+        else:
+            totalAlmacenes1 = sumaCargoAlmacenes - sumaAbonoAlmacenes
+
+    elif sumaAbonoAlmacenes is None and sumaCargoAlmacenes is None:
+        print("Ambos valores son None.")
+    else:
+        print("Uno de los valores es None.")
+    
+    sumaAbonoBanco = sumaAbonoBanco if sumaAbonoBanco is not None else decimal.Decimal('0.0')
+    sumaAbonoCajas = sumaAbonoCajas if sumaAbonoCajas is not None else decimal.Decimal('0.0')
+    sumaAbonoInversiones = sumaAbonoInversiones if sumaAbonoInversiones is not None else decimal.Decimal('0.0')
+    sumaAbonoAlmacenes = sumaAbonoAlmacenes if sumaAbonoAlmacenes is not None else decimal.Decimal('0.0')
+
+    sumaCargoBanco = sumaCargoBanco if sumaCargoBanco is not None else decimal.Decimal('0.0')
+    sumaCargoCajas = sumaCargoCajas if sumaCargoCajas is not None else decimal.Decimal('0.0')
+    sumaCargoInversiones = sumaCargoInversiones if sumaCargoInversiones is not None else decimal.Decimal('0.0')
+    sumaCargoAlmacenes = sumaCargoAlmacenes if sumaCargoAlmacenes is not None else decimal.Decimal('0.0')
+
+
+
+    sumaAbono1=sumaAbonoBanco + sumaAbonoCajas +sumaAbonoInversiones + sumaAbonoAlmacenes
+    sumaCargo1=sumaCargoBanco + sumaCargoCajas + sumaCargoInversiones+ sumaCargoAlmacenes
+    totales=totalBancos + totalCajas + totalInversiones + totalAlmacenes
+    totales1=totalBancos1 + totalCajas1 + totalInversiones1 + totalAlmacenes1
+                        
+
+                           
+
+                        
+
+                       
 
     
    
@@ -1597,14 +1651,23 @@ def vwBalanceComprobacion(idFormato):
                            sumaAbonoCajas=sumaAbonoCajas,
                            sumaCargoCajas=sumaCargoCajas,
                            totalCajas=totalCajas,
-                           totalCajas1=totalCajas1,
+                        totalCajas1=totalCajas1,
 
-                           sumaAbonoInversiones=sumaAbonoInversiones,
-                           sumaCargoInversiones=sumaCargoInversiones,
-                           totalInversiones=totalInversiones,
-                            totalInversiones1=totalInversiones1,
+                        sumaAbonoInversiones=sumaAbonoInversiones,
+                        sumaCargoInversiones=sumaCargoInversiones,
+                        totalInversiones=totalInversiones,
+                        totalInversiones1=totalInversiones1,
 
-                        
+                        sumaAbonoAlmacenes =sumaAbonoAlmacenes ,
+                        sumaCargoAlmacenes =sumaCargoAlmacenes ,
+                        totalAlmacenes =totalAlmacenes ,
+                        totalAlmacenes1 =totalAlmacenes1 ,
+
+                        sumaAbono1 =sumaAbono1 ,
+                        sumaCargo1 =sumaCargo1,
+                        totales =totales ,
+                        totales1 =totales1 ,
+
     
                            )
 
